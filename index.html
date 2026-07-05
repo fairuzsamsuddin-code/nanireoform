@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PruBSN Takaful - Pendaftaran Jarak Jauh (Remote Enrollment)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pru-red: #ED1B2E; 
+            --bsn-teal: #00615F; 
+            --bg-color: #f4f7f6;
+            --form-bg: #ffffff;
+            --border-color: #cccccc;
+            --text-color: #333333;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: #fff;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-bottom: 4px solid var(--pru-red);
+        }
+
+        .logo {
+            max-width: 220px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .header h1 {
+            color: var(--bsn-teal);
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            margin: 5px 0 0;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+            flex-grow: 1;
+        }
+
+        .form-container {
+            background: var(--form-bg);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-size: 1.15rem;
+            color: var(--bsn-teal);
+            border-bottom: 2px solid var(--pru-red);
+            padding-bottom: 8px;
+            margin-top: 35px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #444;
+            font-size: 0.9rem;
+        }
+
+        .long-label {
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--bsn-teal);
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(0, 97, 95, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .note-box {
+            background-color: #fff8f8;
+            border-left: 4px solid var(--pru-red);
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9rem;
+            color: #444;
+        }
+
+        .document-checklist {
+            background-color: #f2f7f6;
+            border: 1px solid #c2d9d7;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+        }
+
+        .document-checklist p {
+            margin-top: 0;
+            font-weight: 600;
+            color: var(--bsn-teal);
+        }
+
+        .document-checklist ul {
+            margin-bottom: 0;
+            padding-left: 20px;
+        }
+
+        .submit-btn {
+            background-color: var(--bsn-teal);
+            color: #fff;
+            border: none;
+            padding: 16px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #004745;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            background-color: #e9ecef;
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: auto;
+            border-top: 1px solid #ddd;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <!-- Logo Syarikat Dimasukkan Di Sini -->
+        <img src="company_logo.JPG" alt="PruBSN Takaful Logo" class="logo">
+        
+        <h1>Borang Pendaftaran Jarak Jauh</h1>
+        <p>PruBSN Remote Enrollment Option</p>
+    </div>
+
+    <div class="container">
+        <div class="form-container">
+            <form id="takafulForm" onsubmit="submitToWhatsApp(event)">
+                
+                <div class="note-box">
+                    Sila lengkapkan butiran di bawah dengan tepat untuk melancarkan proses permohonan Takaful anda.
+                </div>
+
+                <!-- MAKLUMAT PERIBADI -->
+                <div class="section-title">1. Maklumat Peribadi</div>
+                <div class="form-group">
+                    <label>Nama Penuh (Seperti dalam MyKad) *</label>
+                    <input type="text" id="nama" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tarikh Lahir *</label>
+                        <input type="date" id="tarikh_lahir" required>
+                    </div>
+                    <div class="form-group">
+                        <label>No. Telefon *</label>
+                        <input type="tel" id="no_tel" required placeholder="Contoh: 0123456789">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Emel *</label>
+                    <input type="email" id="emel" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Alamat Rumah *</label>
+                    <textarea id="alamat" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Warganegara *</label>
+                        <select id="warganegara" required>
+                            <option value="">Sila Pilih...</option>
+                            <option value="Malaysia">Malaysia</option>
+                            <option value="Penduduk Tetap">Penduduk Tetap</option>
+                            <option value="Bukan Warganegara">Bukan Warganegara</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Agama *</label>
+                        <select id="agama" required>
+                            <option value="">Sila Pilih...</option>
+                            <option value="Islam">Islam</option>
+                            <option value="Buddhist">Buddhist</option>
+                            <option value="Hindu">Hindu</option>
+                            <option value="Kristian">Kristian</option>
+                            <option value="Lain-lain">Lain-lain</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tinggi (cm) *</label>
+                        <input type="number" id="tinggi" required placeholder="Contoh: 170">
+                    </div>
+                    <div class="form-group">
+                        <label>Berat (kg) *</label>
+                        <input type="number" id="berat" required placeholder="Contoh: 70">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Status Merokok *</label>
+                    <select id="merokok" required>
+                        <option value="">Sila Pilih...</option>
+                        <option value="Merokok">Merokok</option>
+                        <option value="Tidak Merokok">Tidak Merokok</option>
+                    </select>
+                </div>
+
+                <!-- MAKLUMAT PEKERJAAN -->
+                <div class="section-title">2. Maklumat Pekerjaan</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nama Majikan / Syarikat *</label>
+                        <input type="text" id="majikan" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Jawatan *</label>
+                        <input type="text" id="jawatan" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Keterangan Ringkas Pekerjaan *</label>
+                    <textarea id="keterangan_kerja" required placeholder="Contoh: Membuat kerja-kerja admin di pejabat..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Alamat Majikan *</label>
+                    <textarea id="alamat_majikan" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Pendapatan Tahunan (RM) *</label>
+                    <input type="number" id="pendapatan" required placeholder="Contoh: 45000">
+                </div>
+
+                <!-- MAKLUMAT BANK & PEMBAYARAN -->
+                <div class="section-title">3. Maklumat Kewangan & Pembayaran</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nama Bank (Untuk tujuan tuntutan) *</label>
+                        <input type="text" id="nama_bank" required placeholder="Contoh: Maybank">
+                    </div>
+                    <div class="form-group">
+                        <label>No. Akaun Bank *</label>
+                        <input type="text" id="no_akaun" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Jenis Akaun *</label>
+                        <select id="jenis_akaun" required>
+                            <option value="">Sila Pilih...</option>
+                            <option value="Islamik">Islamik</option>
+                            <option value="Konvensional">Konvensional</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Cara Bayaran Sumbangan Bulanan *</label>
+                        <select id="cara_bayaran" required>
+                            <option value="">Sila Pilih...</option>
+                            <option value="Autodebit Akaun">Autodebit Akaun</option>
+                            <option value="Kad Debit">Kad Debit</option>
+                            <option value="Kad Kredit">Kad Kredit</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- MAKLUMAT PENAMA -->
+                <div class="section-title">4. Maklumat Penama / Pewaris</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nama Penama / Pewaris *</label>
+                        <input type="text" id="penama" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Hubungan dengan Penama *</label>
+                        <input type="text" id="hubungan_penama" required placeholder="Contoh: Isteri / Suami / Anak">
+                    </div>
+                </div>
+
+                <!-- REKOD KESIHATAN -->
+                <div class="section-title">5. Rekod Kesihatan (Isi jika ada)</div>
+                <div class="note-box" style="background-color: #f0f7fc; border-color: #00615F; color: #333;">
+                    Abaikan bahagian ini jika anda tidak mempunyai sebarang rekod penyakit atau kemasukan ke wad sebelum ini.
+                </div>
+                
+                <div class="form-group">
+                    <label>Penyakit Dihidapi</label>
+                    <input type="text" id="penyakit">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Diwadkan di hospital mana?</label>
+                        <input type="text" id="hospital">
+                    </div>
+                    <div class="form-group">
+                        <label>Berapa hari di dalam wad?</label>
+                        <input type="number" id="hari_wad">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Jenis Rawatan (Ubat-ubatan / Pembedahan / Implan)</label>
+                    <input type="text" id="jenis_rawatan">
+                </div>
+
+                <div class="form-group">
+                    <label>Status Terkini</label>
+                    <select id="status_pulih">
+                        <option value="">Sila Pilih...</option>
+                        <option value="Sudah pulih sepenuhnya">Sudah pulih sepenuhnya</option>
+                        <option value="Masih mendapatkan rawatan susulan">Masih mendapatkan rawatan susulan</option>
+                    </select>
+                </div>
+
+                <!-- SEJARAH KESIHATAN KELUARGA -->
+                <div class="section-title">6. Sejarah Kesihatan Keluarga (Penyakit Keturunan)</div>
+                <div class="form-group">
+                    <label class="long-label">Adakah dikalangan keluarga terdekat (ibu, ayah atau adik-beradik kandung) disahkan menghidapi penyakit keturunan atau penyakit kritikal (contoh: darah tinggi, kencing manis, kegagalan buah pinggang, serangan jantung, kanser atau lain-lain)? Jika ada, sila nyatakan di bawah.</label>
+                    <textarea id="sejarah_keluarga" placeholder="Contoh: Bapa - Kencing Manis, Ibu - Darah Tinggi. (Tulis 'Tiada' jika tidak berkaitan)"></textarea>
+                </div>
+
+                <!-- DOKUMEN SOKONGAN -->
+                <div class="section-title">7. Dokumen Sokongan</div>
+                <div class="document-checklist">
+                    <p>📸 ARAHAN PENTING:</p>
+                    Sebagai pengesahan keselamatan identiti, sila sediakan gambar-gambar berikut untuk dihantar <strong>di dalam ruang chat WhatsApp</strong> selepas anda menekan butang Hantar di bawah:
+                    <ul>
+                        <li>Gambar MyKad (Muka Depan)</li>
+                        <li>Gambar MyKad (Muka Belakang)</li>
+                        <li>Gambar Selfie anda memegang MyKad</li>
+                    </ul>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Hantar Permohonan Melalui WhatsApp &rarr;
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="footer">
+        &copy; 2026 Nani Mad Sahad. Hak Cipta Terpelihara.<br>
+        Pengantara Takaful Berdaftar dengan Prudential BSN Takaful Berhad.
+    </div>
+
+    <script>
+        function submitToWhatsApp(event) {
+            event.preventDefault();
+
+            // GANTI NOMBOR TELEFON ANDA DI SINI (Termasuk 60, tanpa +)
+            const agentPhone = "60173128022"; 
+
+            // Get form values
+            const val = (id) => document.getElementById(id).value || "Tiada/Tidak Berkaitan";
+
+            const nama = val("nama");
+            const tarikhLahir = val("tarikh_lahir");
+            const noTel = val("no_tel");
+            const emel = val("emel");
+            const alamat = val("alamat");
+            const warganegara = val("warganegara");
+            const agama = val("agama");
+            const tinggi = val("tinggi");
+            const berat = val("berat");
+            const merokok = val("merokok");
+
+            const majikan = val("majikan");
+            const jawatan = val("jawatan");
+            const ketKerja = val("keterangan_kerja");
+            const alamatMajikan = val("alamat_majikan");
+            const pendapatan = val("pendapatan");
+
+            const namaBank = val("nama_bank");
+            const noAkaun = val("no_akaun");
+            const jenisAkaun = val("jenis_akaun");
+            const caraBayaran = val("cara_bayaran");
+
+            const penama = val("penama");
+            const hubPenama = val("hubungan_penama");
+
+            const penyakit = val("penyakit");
+            const hospital = val("hospital");
+            const hariWad = val("hari_wad");
+            const rawatan = val("jenis_rawatan");
+            const statusPulih = val("status_pulih");
+
+            const sejarahKeluarga = val("sejarah_keluarga");
+
+            // Construct Message
+            const whatsappMessage = `*PERMOHONAN PRUBSN - REMOTE ENROLLMENT*
+
+*1. MAKLUMAT PERIBADI*
+Nama: ${nama}
+Tarikh Lahir: ${tarikhLahir}
+No. Tel: ${noTel}
+Emel: ${emel}
+Alamat: ${alamat}
+Warganegara: ${warganegara}
+Agama: ${agama}
+Tinggi: ${tinggi} cm
+Berat: ${berat} kg
+Status: ${merokok}
+
+*2. MAKLUMAT PEKERJAAN*
+Majikan: ${majikan}
+Jawatan: ${jawatan}
+Deskripsi Tugas: ${ketKerja}
+Alamat Majikan: ${alamatMajikan}
+Pendapatan Tahunan: RM ${pendapatan}
+
+*3. MAKLUMAT BANK & BAYARAN*
+Nama Bank (Tuntutan): ${namaBank}
+No. Akaun: ${noAkaun}
+Jenis Akaun: ${jenisAkaun}
+Cara Bayaran Bulanan: ${caraBayaran}
+
+*4. MAKLUMAT PENAMA*
+Nama Penama: ${penama}
+Hubungan: ${hubPenama}
+
+*5. REKOD KESIHATAN*
+Penyakit: ${penyakit}
+Hospital Dirawat: ${hospital}
+Jumlah Hari Diwadkan: ${hariWad}
+Jenis Rawatan: ${rawatan}
+Status Terkini: ${statusPulih}
+
+*6. SEJARAH KESIHATAN KELUARGA*
+Rekod / Penyakit Keturunan: ${sejarahKeluarga}
+
+*7. DOKUMEN*
+_Pelanggan akan menghantar lampiran MyKad (Depan, Belakang & Selfie) di dalam chat ini sebentar lagi._`;
+
+            // Encode string to URL format
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            
+            // Generate WA Link
+            const whatsappLink = `https://wa.me/${agentPhone}?text=${encodedMessage}`;
+            
+            // Open WA Link
+            window.open(whatsappLink, '_blank');
+        }
+    </script>
+</body>
+</html>
