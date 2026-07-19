@@ -439,6 +439,37 @@
     </div>
 
     <script>
+        // Auto-fill Tarikh Lahir from No. IC
+        document.getElementById('ic').addEventListener('input', function(e) {
+            // Get the value and remove any non-digit characters (like dashes)
+            let icVal = e.target.value.replace(/\D/g, '');
+
+            // Once we have at least 6 digits, try to parse the date
+            if (icVal.length >= 6) {
+                let yy = icVal.substring(0, 2);
+                let mm = icVal.substring(2, 4);
+                let dd = icVal.substring(4, 6);
+
+                // Basic validation for Month (01-12) and Day (01-31)
+                if (parseInt(mm) > 0 && parseInt(mm) <= 12 && parseInt(dd) > 0 && parseInt(dd) <= 31) {
+                    
+                    // Determine if it's 19XX or 20XX
+                    let currentYear = new Date().getFullYear();
+                    let currentTwoDigitYear = currentYear % 100;
+                    let numYy = parseInt(yy);
+                    
+                    // If YY is less than or equal to current year's last two digits, it's 20YY. Otherwise, 19YY.
+                    let fullYear = (numYy <= currentTwoDigitYear) ? (2000 + numYy) : (1900 + numYy);
+
+                    // Format as YYYY-MM-DD for the date input
+                    let formattedDate = `${fullYear}-${mm}-${dd}`;
+                    
+                    // Update the Tarikh Lahir input
+                    document.getElementById('tarikh_lahir').value = formattedDate;
+                }
+            }
+        });
+
         function submitToWhatsApp(event) {
             event.preventDefault();
 
