@@ -164,6 +164,28 @@
             padding-left: 20px;
         }
 
+        .ekyc-note {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: #555;
+            background-color: #e8f4f3;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 3px solid var(--bsn-teal);
+        }
+
+        .ekyc-note a {
+            color: var(--bsn-teal);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 8px;
+        }
+
+        .ekyc-note a:hover {
+            text-decoration: underline;
+        }
+
         .submit-btn {
             background-color: var(--bsn-teal);
             color: #fff;
@@ -580,7 +602,6 @@
                         </div>
                         <div class="form-group">
                             <label>Sila nyatakan bulan dan tahun disahkan positif (BB/TTTT) *</label>
-                            <!-- Ditambah maxlength="7" di sini -->
                             <input type="text" id="tarikh_covid" placeholder="Contoh: 08/2021" maxlength="7">
                         </div>
                     </div>
@@ -634,6 +655,14 @@
                         <li>Gambar MyKad (Muka Belakang)</li>
                         <li>Gambar Selfie anda memegang MyKad</li>
                     </ul>
+                    
+                    <div class="ekyc-note">
+                        <strong>*Nota:</strong> Langkah penyerahan gambar MyKad dan swafoto (selfie) ini adalah sebahagian daripada proses mandatori <strong>eKYC (Electronic Know Your Customer)</strong> bagi tujuan pengesahan identiti secara digital.
+                        <br>
+                        <a href="https://www.bnm.gov.my/-/pd-ekyc-en" target="_blank" rel="noopener noreferrer">
+                            &rarr; Ketahui lebih lanjut mengenai polisi eKYC di portal rasmi Bank Negara Malaysia (BNM)
+                        </a>
+                    </div>
                 </div>
 
                 <button type="submit" class="submit-btn">
@@ -672,14 +701,10 @@
 
         // Auto-format Tarikh COVID-19 untuk letak slash "/" (BB/TTTT)
         document.getElementById('tarikh_covid').addEventListener('input', function(e) {
-            // Buang semua aksara yang bukan nombor
             let val = e.target.value.replace(/\D/g, '');
-            
-            // Tambah slash selepas 2 digit pertama
             if (val.length > 2) {
                 val = val.substring(0, 2) + '/' + val.substring(2, 6);
             }
-            
             e.target.value = val;
         });
 
