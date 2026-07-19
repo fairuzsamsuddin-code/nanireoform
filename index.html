@@ -231,6 +231,14 @@
             margin: 25px 0;
         }
 
+        .sub-section-box {
+            background-color: #fafafa;
+            border: 1px dashed var(--border-color);
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
         @media (max-width: 600px) {
             .form-row {
                 grid-template-columns: 1fr;
@@ -324,11 +332,43 @@
 
                 <div class="form-group">
                     <label>Status Merokok *</label>
-                    <select id="merokok" required>
+                    <select id="merokok" required onchange="updateMerokokFields()">
                         <option value="">Sila Pilih...</option>
                         <option value="Merokok">Merokok</option>
                         <option value="Tidak Merokok">Tidak Merokok</option>
                     </select>
+                </div>
+
+                <!-- Butiran Merokok (Hanya Muncul Jika "Merokok") -->
+                <div id="merokok_details_section" class="sub-section-box" style="display: none;">
+                    <div class="form-group">
+                        <label>Rokok / Vape? *</label>
+                        <select id="jenis_merokok" onchange="updateJenisMerokokFields()">
+                            <option value="">Sila Pilih...</option>
+                            <option value="Rokok">Rokok</option>
+                            <option value="Vape">Vape</option>
+                        </select>
+                    </div>
+
+                    <!-- Jika Rokok -->
+                    <div id="rokok_details" class="form-row" style="display: none;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label>Berapa batang sehari? *</label>
+                            <input type="number" id="bilangan_rokok" min="1" placeholder="Contoh: 10">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label>Sudah berapa tahun anda merokok? *</label>
+                            <input type="number" id="tahun_merokok" min="1" placeholder="Contoh: 5">
+                        </div>
+                    </div>
+
+                    <!-- Jika Vape -->
+                    <div id="vape_details" style="display: none;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label>Sudah berapa tahun vape? *</label>
+                            <input type="number" id="tahun_vape" min="1" placeholder="Contoh: 3">
+                        </div>
+                    </div>
                 </div>
 
                 <!-- MAKLUMAT PEKERJAAN -->
@@ -657,9 +697,9 @@
                     </ul>
                     
                     <div class="ekyc-note">
-                        <strong>*Nota:</strong> Langkah penyerahan gambar MyKad dan swafoto (selfie) ini adalah sebahagian daripada proses mandatori <strong>eKYC (Electronic Know Your Customer)</strong> bagi tujuan pengesahan identiti secara digital.
+                        <strong>*Nota:</strong> Langkah penyerahan gambar MyKad dan swafoto (selfie) ini adalah sebahagian daripada proses mandatori <strong>eKYC (Electronic Know Your Customer)</strong> bagi tujuan pengesahan identiti secara digital yang selamat dan sah di sisi undang-undang.
                         <br>
-                        <a href="https://www.bnm.gov.my/-/pd-ekyc-en" target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.bnm.gov.my/-/electronic-know-your-customer-e-kyc-" target="_blank" rel="noopener noreferrer">
                             &rarr; Ketahui lebih lanjut mengenai polisi eKYC di portal rasmi Bank Negara Malaysia (BNM)
                         </a>
                     </div>
@@ -698,6 +738,58 @@
                 }
             }
         });
+
+        // Dynamic Merokok Fields
+        function updateMerokokFields() {
+            const isMerokok = document.getElementById('merokok').value === 'Merokok';
+            const section = document.getElementById('merokok_details_section');
+            const jenisField = document.getElementById('jenis_merokok');
+
+            if (isMerokok) {
+                section.style.display = 'block';
+                jenisField.required = true;
+            } else {
+                section.style.display = 'none';
+                jenisField.required = false;
+                jenisField.value = '';
+                updateJenisMerokokFields(); // Reset sub-fields
+            }
+        }
+
+        function updateJenisMerokokFields() {
+            const jenis = document.getElementById('jenis_merokok').value;
+            const rokokSection = document.getElementById('rokok_details');
+            const vapeSection = document.getElementById('vape_details');
+            
+            const bilRokok = document.getElementById('bilangan_rokok');
+            const tahunRokok = document.getElementById('tahun_merokok');
+            const tahunVape = document.getElementById('tahun_vape');
+
+            if (jenis === 'Rokok') {
+                rokokSection.style.display = 'grid'; // Grid untuk .form-row
+                vapeSection.style.display = 'none';
+                bilRokok.required = true;
+                tahunRokok.required = true;
+                
+                tahunVape.required = false;
+                tahunVape.value = '';
+            } else if (jenis === 'Vape') {
+                vapeSection.style.display = 'block';
+                rokokSection.style.display = 'none';
+                tahunVape.required = true;
+                
+                bilRokok.required = false;
+                bilRokok.value = '';
+                tahunRokok.required = false;
+                tahunRokok.value = '';
+            } else {
+                rokokSection.style.display = 'none';
+                vapeSection.style.display = 'none';
+                bilRokok.required = false; bilRokok.value = '';
+                tahunRokok.required = false; tahunRokok.value = '';
+                tahunVape.required = false; tahunVape.value = '';
+            }
+        }
 
         // Auto-format Tarikh COVID-19 untuk letak slash "/" (BB/TTTT)
         document.getElementById('tarikh_covid').addEventListener('input', function(e) {
@@ -824,7 +916,19 @@
             const agama = val("agama");
             const tinggi = val("tinggi");
             const berat = val("berat");
-            const merokok = val("merokok");
+            
+            // Smoking Details Builder
+            const merokokStatus = val("merokok");
+            let merokokDetails = merokokStatus;
+            
+            if (merokokStatus === "Merokok") {
+                const jenisMerokok = val("jenis_merokok");
+                if (jenisMerokok === "Rokok") {
+                    merokokDetails += ` (Jenis: Rokok | Kuantiti: ${val("bilangan_rokok")} batang/hari | Tempoh: ${val("tahun_merokok")} tahun)`;
+                } else if (jenisMerokok === "Vape") {
+                    merokokDetails += ` (Jenis: Vape | Tempoh: ${val("tahun_vape")} tahun)`;
+                }
+            }
 
             const majikan = val("majikan");
             const jawatan = val("jawatan");
@@ -894,7 +998,7 @@ Warganegara: ${warganegara}
 Agama: ${agama}
 Tinggi: ${tinggi} cm
 Berat: ${berat} kg
-Status: ${merokok}
+Status Merokok: ${merokokDetails}
 
 *2. MAKLUMAT PEKERJAAN*
 Majikan: ${majikan}
