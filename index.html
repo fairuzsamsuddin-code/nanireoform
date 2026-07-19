@@ -220,9 +220,7 @@
 <body>
 
     <div class="header">
-        <!-- Logo Syarikat Dimasukkan Di Sini -->
         <img src="company_logo.JPG" alt="PruBSN Takaful Logo" class="logo">
-        
         <h1>Borang Pendaftaran Takaful</h1>
         <p>PruBSN Takaful Enrollment Form</p>
     </div>
@@ -561,8 +559,73 @@
                     <textarea id="sejarah_keluarga" placeholder="Contoh: Bapa - Kencing Manis, Ibu - Darah Tinggi. (Tulis 'Tiada' jika tidak berkaitan)"></textarea>
                 </div>
 
+                <!-- SEJARAH COVID-19 -->
+                <div class="section-title">7. Sejarah COVID-19</div>
+                
+                <div class="form-group">
+                    <label>Pernahkah anda disahkan positif COVID-19? *</label>
+                    <select id="positif_covid" required onchange="updateCovidFields()">
+                        <option value="">Sila Pilih...</option>
+                        <option value="Ya">Ya</option>
+                        <option value="Tidak">Tidak</option>
+                    </select>
+                </div>
+
+                <!-- Kandungan Lanjut COVID (Hanya Muncul Jika Pilih "Ya") -->
+                <div id="covid_details_section" style="display: none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Berapa kalikah anda disahkan positif COVID-19? *</label>
+                            <input type="number" id="kekerapan_covid" min="1" placeholder="Contoh: 2">
+                        </div>
+                        <div class="form-group">
+                            <label>Sila nyatakan bulan dan tahun disahkan positif (BB/TTTT) *</label>
+                            <!-- Ditambah maxlength="7" di sini -->
+                            <input type="text" id="tarikh_covid" placeholder="Contoh: 08/2021" maxlength="7">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tahap COVID-19? *</label>
+                            <select id="tahap_covid">
+                                <option value="">Sila Pilih...</option>
+                                <option value="Tahap 1">1</option>
+                                <option value="Tahap 2">2</option>
+                                <option value="Tahap 3">3</option>
+                                <option value="Tahap 4">4</option>
+                                <option value="Tahap 5">5</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Pernahkah anda dimasukkan ke hospital untuk sebab ini? *</label>
+                            <select id="masuk_hospital_covid" onchange="updateCovidHospitalFields()">
+                                <option value="">Sila Pilih...</option>
+                                <option value="Ya">Ya</option>
+                                <option value="Tidak">Tidak</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="rawatan_covid_section" style="display: none;">
+                        <label>Jika Ya, apakah rawatan yang telah dijalankan? *</label>
+                        <select id="rawatan_covid">
+                            <option value="">Sila Pilih...</option>
+                            <option value="Bantuan Alat Pernafasan">Bantuan Alat Pernafasan</option>
+                            <option value="HDU / ICU / ITU / CCU">HDU, ICU, ITU, CCU</option>
+                            <option value="Ubat Anti-Viral">Ubat Anti-Viral</option>
+                            <option value="Kuarantin di Wad atau Pusat Kuarantin">Kuarantin di Wad atau Pusat Kuarantin</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Adakah anda sedang mengalami sebarang kondisi sekarang disebabkan oleh COVID-19? *</label>
+                        <textarea id="kondisi_semasa_covid" placeholder="Contoh: Kerap sesak nafas. (Tulis 'Tiada' jika tidak berkaitan)"></textarea>
+                    </div>
+                </div>
+
                 <!-- DOKUMEN SOKONGAN -->
-                <div class="section-title">7. Dokumen Sokongan</div>
+                <div class="section-title">8. Dokumen Sokongan</div>
                 <div class="document-checklist">
                     <p>📸 ARAHAN PENTING:</p>
                     Sebagai pengesahan keselamatan identiti, sila sediakan gambar-gambar berikut untuk dihantar <strong>di dalam ruang chat WhatsApp</strong> selepas anda menekan butang Hantar di bawah:
@@ -605,6 +668,19 @@
                     document.getElementById('tarikh_lahir').value = formattedDate;
                 }
             }
+        });
+
+        // Auto-format Tarikh COVID-19 untuk letak slash "/" (BB/TTTT)
+        document.getElementById('tarikh_covid').addEventListener('input', function(e) {
+            // Buang semua aksara yang bukan nombor
+            let val = e.target.value.replace(/\D/g, '');
+            
+            // Tambah slash selepas 2 digit pertama
+            if (val.length > 2) {
+                val = val.substring(0, 2) + '/' + val.substring(2, 6);
+            }
+            
+            e.target.value = val;
         });
 
         // Dynamic Nominee Fields Toggler
@@ -654,6 +730,43 @@
                     p.required = false; h.required = false; hw.required = false; jr.required = false; sp.required = false;
                     p.value = ''; h.value = ''; hw.value = ''; jr.value = ''; sp.value = '';
                 }
+            }
+        }
+
+        // Dynamic COVID-19 Fields Toggler
+        function updateCovidFields() {
+            const isPositif = document.getElementById('positif_covid').value === 'Ya';
+            const section = document.getElementById('covid_details_section');
+            const requiredFields = ['kekerapan_covid', 'tarikh_covid', 'tahap_covid', 'masuk_hospital_covid', 'kondisi_semasa_covid'];
+            
+            if (isPositif) {
+                section.style.display = 'block';
+                requiredFields.forEach(id => document.getElementById(id).required = true);
+            } else {
+                section.style.display = 'none';
+                requiredFields.forEach(id => {
+                    const el = document.getElementById(id);
+                    el.required = false;
+                    el.value = '';
+                });
+                document.getElementById('rawatan_covid').required = false;
+                document.getElementById('rawatan_covid').value = '';
+                document.getElementById('rawatan_covid_section').style.display = 'none';
+            }
+        }
+
+        function updateCovidHospitalFields() {
+            const isHospital = document.getElementById('masuk_hospital_covid').value === 'Ya';
+            const section = document.getElementById('rawatan_covid_section');
+            const field = document.getElementById('rawatan_covid');
+
+            if (isHospital) {
+                section.style.display = 'block';
+                field.required = true;
+            } else {
+                section.style.display = 'none';
+                field.required = false;
+                field.value = '';
             }
         }
 
@@ -726,6 +839,23 @@
 
             const sejarahKeluarga = val("sejarah_keluarga");
 
+            // Build Dynamic COVID-19 Record String
+            const positifCovid = val("positif_covid");
+            let covidDetails = `Pernah positif COVID-19: ${positifCovid}\n`;
+            
+            if (positifCovid === "Ya") {
+                covidDetails += `Kekerapan Positif: ${val("kekerapan_covid")} kali\n`;
+                covidDetails += `Bulan/Tahun Positif (BB/TTTT): ${val("tarikh_covid")}\n`;
+                covidDetails += `Tahap: ${val("tahap_covid")}\n`;
+                covidDetails += `Dimasukkan ke Hospital: ${val("masuk_hospital_covid")}\n`;
+                
+                if (val("masuk_hospital_covid") === "Ya") {
+                    covidDetails += `Rawatan Diterima: ${val("rawatan_covid")}\n`;
+                }
+                
+                covidDetails += `Kondisi Semasa akibat COVID-19: ${val("kondisi_semasa_covid")}\n`;
+            }
+
             // Construct Message
             const whatsappMessage = `*PERMOHONAN PRUBSN - REMOTE ENROLLMENT*
 
@@ -761,7 +891,9 @@ ${healthDetails}
 *6. SEJARAH KESIHATAN KELUARGA*
 Rekod / Penyakit Keturunan: ${sejarahKeluarga}
 
-*7. DOKUMEN*
+*7. SEJARAH COVID-19*
+${covidDetails}
+*8. DOKUMEN*
 _Pelanggan akan menghantar lampiran MyKad (Depan, Belakang & Selfie) di dalam chat ini sebentar lagi._`;
 
             const encodedMessage = encodeURIComponent(whatsappMessage);
