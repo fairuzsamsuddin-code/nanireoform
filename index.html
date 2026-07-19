@@ -195,7 +195,7 @@
             border-top: 1px solid #ddd;
         }
         
-        .nominee-title {
+        .sub-title {
             font-size: 1rem;
             color: #555;
             margin-bottom: 15px;
@@ -386,7 +386,7 @@
 
                 <!-- PENAMA 1 -->
                 <div id="nominee_1_section">
-                    <h4 class="nominee-title">Penama 1</h4>
+                    <h4 class="sub-title">Penama 1</h4>
                     <div class="form-row">
                         <div class="form-group">
                             <label>Nama Penama *</label>
@@ -406,7 +406,7 @@
                 <!-- PENAMA 2 -->
                 <div id="nominee_2_section" style="display: none;">
                     <hr class="divider">
-                    <h4 class="nominee-title">Penama 2</h4>
+                    <h4 class="sub-title">Penama 2</h4>
                     <div class="form-row">
                         <div class="form-group">
                             <label>Nama Penama *</label>
@@ -426,7 +426,7 @@
                 <!-- PENAMA 3 -->
                 <div id="nominee_3_section" style="display: none;">
                     <hr class="divider">
-                    <h4 class="nominee-title">Penama 3</h4>
+                    <h4 class="sub-title">Penama 3</h4>
                     <div class="form-row">
                         <div class="form-group">
                             <label>Nama Penama *</label>
@@ -444,39 +444,114 @@
                 </div>
 
                 <!-- REKOD KESIHATAN -->
-                <div class="section-title">5. Rekod Kesihatan (Isi jika ada)</div>
+                <div class="section-title">5. Rekod Kesihatan & Kemasukan Wad</div>
                 <div class="note-box" style="background-color: #f0f7fc; border-color: #00615F; color: #333;">
-                    Abaikan bahagian ini jika anda tidak mempunyai sebarang rekod penyakit atau kemasukan ke wad sebelum ini.
+                    Pilih "Tiada" jika anda tidak mempunyai sebarang rekod penyakit atau kemasukan ke wad sebelum ini.
                 </div>
                 
                 <div class="form-group">
-                    <label>Penyakit Dihidapi</label>
-                    <input type="text" id="penyakit">
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Diwadkan di hospital mana?</label>
-                        <input type="text" id="hospital">
-                    </div>
-                    <div class="form-group">
-                        <label>Berapa hari di dalam wad?</label>
-                        <input type="number" id="hari_wad">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Jenis Rawatan (Ubat-ubatan / Pembedahan / Implan)</label>
-                    <input type="text" id="jenis_rawatan">
-                </div>
-
-                <div class="form-group">
-                    <label>Status Terkini</label>
-                    <select id="status_pulih">
-                        <option value="">Sila Pilih...</option>
-                        <option value="Sudah pulih sepenuhnya">Sudah pulih sepenuhnya</option>
-                        <option value="Masih mendapatkan rawatan susulan">Masih mendapatkan rawatan susulan</option>
+                    <label>Jumlah Rekod untuk Diisytiharkan *</label>
+                    <select id="bilangan_rekod" required onchange="updateHealthFields()">
+                        <option value="0">Tiada</option>
+                        <option value="1">1 Rekod</option>
+                        <option value="2">2 Rekod</option>
+                        <option value="3">3 Rekod</option>
                     </select>
+                </div>
+
+                <!-- REKOD KESIHATAN 1 -->
+                <div id="rekod_1_section" style="display: none;">
+                    <h4 class="sub-title">Rekod Kesihatan 1</h4>
+                    <div class="form-group">
+                        <label>Penyakit Dihidapi *</label>
+                        <input type="text" id="penyakit_1">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Diwadkan di hospital mana? *</label>
+                            <input type="text" id="hospital_1">
+                        </div>
+                        <div class="form-group">
+                            <label>Berapa hari di dalam wad? *</label>
+                            <input type="number" id="hari_wad_1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Jenis Rawatan (Ubat-ubatan / Pembedahan / Implan) *</label>
+                        <textarea id="jenis_rawatan_1" placeholder="Contoh: Makan ubat darah tinggi setiap hari / Pembedahan membuang apendiks pada tahun 2020..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Status Terkini *</label>
+                        <select id="status_pulih_1">
+                            <option value="">Sila Pilih...</option>
+                            <option value="Sudah pulih sepenuhnya">Sudah pulih sepenuhnya</option>
+                            <option value="Masih mendapatkan rawatan susulan">Masih mendapatkan rawatan susulan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- REKOD KESIHATAN 2 -->
+                <div id="rekod_2_section" style="display: none;">
+                    <hr class="divider">
+                    <h4 class="sub-title">Rekod Kesihatan 2</h4>
+                    <div class="form-group">
+                        <label>Penyakit Dihidapi *</label>
+                        <input type="text" id="penyakit_2">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Diwadkan di hospital mana? *</label>
+                            <input type="text" id="hospital_2">
+                        </div>
+                        <div class="form-group">
+                            <label>Berapa hari di dalam wad? *</label>
+                            <input type="number" id="hari_wad_2">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Jenis Rawatan (Ubat-ubatan / Pembedahan / Implan) *</label>
+                        <textarea id="jenis_rawatan_2" placeholder="Contoh: Makan ubat mengikut preskripsi doktor..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Status Terkini *</label>
+                        <select id="status_pulih_2">
+                            <option value="">Sila Pilih...</option>
+                            <option value="Sudah pulih sepenuhnya">Sudah pulih sepenuhnya</option>
+                            <option value="Masih mendapatkan rawatan susulan">Masih mendapatkan rawatan susulan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- REKOD KESIHATAN 3 -->
+                <div id="rekod_3_section" style="display: none;">
+                    <hr class="divider">
+                    <h4 class="sub-title">Rekod Kesihatan 3</h4>
+                    <div class="form-group">
+                        <label>Penyakit Dihidapi *</label>
+                        <input type="text" id="penyakit_3">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Diwadkan di hospital mana? *</label>
+                            <input type="text" id="hospital_3">
+                        </div>
+                        <div class="form-group">
+                            <label>Berapa hari di dalam wad? *</label>
+                            <input type="number" id="hari_wad_3">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Jenis Rawatan (Ubat-ubatan / Pembedahan / Implan) *</label>
+                        <textarea id="jenis_rawatan_3" placeholder="Contoh: Rawatan susulan fisioterapi..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Status Terkini *</label>
+                        <select id="status_pulih_3">
+                            <option value="">Sila Pilih...</option>
+                            <option value="Sudah pulih sepenuhnya">Sudah pulih sepenuhnya</option>
+                            <option value="Masih mendapatkan rawatan susulan">Masih mendapatkan rawatan susulan</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- SEJARAH KESIHATAN KELUARGA -->
@@ -506,7 +581,7 @@
     </div>
     
     <div class="footer">
-        &copy; 2026 Nani Mad Sahad. Hak Cipta Terpelihara.<br>
+        &copy; 2026 Fairuz Samsuddin. Hak Cipta Terpelihara.<br>
         Pengantara Takaful Berdaftar dengan Prudential BSN Takaful Berhad.
     </div>
 
@@ -536,43 +611,49 @@
         function updateNomineeFields() {
             const count = parseInt(document.getElementById('bilangan_penama').value);
             
-            // Elements for Penama 2
-            const n2 = document.getElementById('nominee_2_section');
-            const p2 = document.getElementById('penama_2');
-            const h2 = document.getElementById('hubungan_penama_2');
-            const pct2 = document.getElementById('peratus_penama_2');
-            
-            // Elements for Penama 3
-            const n3 = document.getElementById('nominee_3_section');
-            const p3 = document.getElementById('penama_3');
-            const h3 = document.getElementById('hubungan_penama_3');
-            const pct3 = document.getElementById('peratus_penama_3');
+            for (let i = 2; i <= 3; i++) {
+                const section = document.getElementById(`nominee_${i}_section`);
+                const p = document.getElementById(`penama_${i}`);
+                const h = document.getElementById(`hubungan_penama_${i}`);
+                const pct = document.getElementById(`peratus_penama_${i}`);
+                
+                if (count >= i) {
+                    section.style.display = 'block';
+                    p.required = true; h.required = true; pct.required = true;
+                } else {
+                    section.style.display = 'none';
+                    p.required = false; h.required = false; pct.required = false;
+                    p.value = ''; h.value = ''; pct.value = '';
+                }
+            }
 
-            // Handle Penama 1 Defaults
             if(count === 1) {
                 document.getElementById('peratus_penama_1').value = "100";
             } else {
-                document.getElementById('peratus_penama_1').value = ""; // Clear so they can split it manually
+                document.getElementById('peratus_penama_1').value = ""; 
             }
+        }
 
-            // Toggle Penama 2
-            if (count >= 2) {
-                n2.style.display = 'block';
-                p2.required = true; h2.required = true; pct2.required = true;
-            } else {
-                n2.style.display = 'none';
-                p2.required = false; h2.required = false; pct2.required = false;
-                p2.value = ''; h2.value = ''; pct2.value = ''; // clear hidden values
-            }
+        // Dynamic Health Records Toggler
+        function updateHealthFields() {
+            const count = parseInt(document.getElementById('bilangan_rekod').value);
             
-            // Toggle Penama 3
-            if (count >= 3) {
-                n3.style.display = 'block';
-                p3.required = true; h3.required = true; pct3.required = true;
-            } else {
-                n3.style.display = 'none';
-                p3.required = false; h3.required = false; pct3.required = false;
-                p3.value = ''; h3.value = ''; pct3.value = ''; // clear hidden values
+            for (let i = 1; i <= 3; i++) {
+                const section = document.getElementById(`rekod_${i}_section`);
+                const p = document.getElementById(`penyakit_${i}`);
+                const h = document.getElementById(`hospital_${i}`);
+                const hw = document.getElementById(`hari_wad_${i}`);
+                const jr = document.getElementById(`jenis_rawatan_${i}`);
+                const sp = document.getElementById(`status_pulih_${i}`);
+                
+                if (count >= i) {
+                    section.style.display = 'block';
+                    p.required = true; h.required = true; hw.required = true; jr.required = true; sp.required = true;
+                } else {
+                    section.style.display = 'none';
+                    p.required = false; h.required = false; hw.required = false; jr.required = false; sp.required = false;
+                    p.value = ''; h.value = ''; hw.value = ''; jr.value = ''; sp.value = '';
+                }
             }
         }
 
@@ -580,19 +661,19 @@
             event.preventDefault();
 
             // Validate Nominee Percentages First
-            const count = parseInt(document.getElementById('bilangan_penama').value);
+            const nomineeCount = parseInt(document.getElementById('bilangan_penama').value);
             let totalPercentage = parseInt(document.getElementById('peratus_penama_1').value) || 0;
             
-            if (count >= 2) totalPercentage += parseInt(document.getElementById('peratus_penama_2').value) || 0;
-            if (count >= 3) totalPercentage += parseInt(document.getElementById('peratus_penama_3').value) || 0;
+            if (nomineeCount >= 2) totalPercentage += parseInt(document.getElementById('peratus_penama_2').value) || 0;
+            if (nomineeCount >= 3) totalPercentage += parseInt(document.getElementById('peratus_penama_3').value) || 0;
 
             if (totalPercentage !== 100) {
                 alert(`Jumlah peratusan penama mestilah genap 100%. (Jumlah sekarang: ${totalPercentage}%). Sila periksa semula.`);
-                return; // Stop submission
+                return;
             }
 
             // GANTI NOMBOR TELEFON ANDA DI SINI
-            const agentPhone = "60173128022"; 
+            const agentPhone = "60176213432"; 
 
             const val = (id) => document.getElementById(id).value || "Tiada/Tidak Berkaitan";
 
@@ -619,21 +700,30 @@
             const caraBayaran = val("cara_bayaran");
 
             // Build Dynamic Nominee String
-            let penamaDetails = `Bilangan Penama: ${count}\n`;
+            let penamaDetails = `Bilangan Penama: ${nomineeCount}\n`;
             penamaDetails += `[Penama 1] Nama: ${val("penama_1")} | Hubungan: ${val("hubungan_penama_1")} | Bahagian: ${val("peratus_penama_1")}%\n`;
-            
-            if (count >= 2) {
+            if (nomineeCount >= 2) {
                 penamaDetails += `[Penama 2] Nama: ${val("penama_2")} | Hubungan: ${val("hubungan_penama_2")} | Bahagian: ${val("peratus_penama_2")}%\n`;
             }
-            if (count >= 3) {
+            if (nomineeCount >= 3) {
                 penamaDetails += `[Penama 3] Nama: ${val("penama_3")} | Hubungan: ${val("hubungan_penama_3")} | Bahagian: ${val("peratus_penama_3")}%\n`;
             }
 
-            const penyakit = val("penyakit");
-            const hospital = val("hospital");
-            const hariWad = val("hari_wad");
-            const rawatan = val("jenis_rawatan");
-            const statusPulih = val("status_pulih");
+            // Build Dynamic Health Record String
+            const healthCount = parseInt(document.getElementById('bilangan_rekod').value);
+            let healthDetails = `Jumlah Rekod: ${healthCount === 0 ? 'Tiada' : healthCount}\n`;
+            
+            if (healthCount > 0) {
+                for (let i = 1; i <= healthCount; i++) {
+                    healthDetails += `\n[Rekod ${i}]\n`;
+                    healthDetails += `Penyakit: ${val(`penyakit_${i}`)}\n`;
+                    healthDetails += `Hospital Dirawat: ${val(`hospital_${i}`)}\n`;
+                    healthDetails += `Jumlah Hari Diwadkan: ${val(`hari_wad_${i}`)}\n`;
+                    healthDetails += `Jenis Rawatan: ${val(`jenis_rawatan_${i}`)}\n`;
+                    healthDetails += `Status Terkini: ${val(`status_pulih_${i}`)}\n`;
+                }
+            }
+
             const sejarahKeluarga = val("sejarah_keluarga");
 
             // Construct Message
@@ -667,12 +757,7 @@ Cara Bayaran Bulanan: ${caraBayaran}
 *4. MAKLUMAT PENAMA*
 ${penamaDetails}
 *5. REKOD KESIHATAN*
-Penyakit: ${penyakit}
-Hospital Dirawat: ${hospital}
-Jumlah Hari Diwadkan: ${hariWad}
-Jenis Rawatan: ${rawatan}
-Status Terkini: ${statusPulih}
-
+${healthDetails}
 *6. SEJARAH KESIHATAN KELUARGA*
 Rekod / Penyakit Keturunan: ${sejarahKeluarga}
 
